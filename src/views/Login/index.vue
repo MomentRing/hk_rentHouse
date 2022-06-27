@@ -3,22 +3,17 @@
     <!--  -->
     <van-nav-bar title="账号登录" left-arrow @click-left="onClickLeft" />
 
-    <van-form @submit="onSubmit" ref="form">
+    <van-form @submit="onSubmit">
       <van-field
-        v-model="username"
+        v-model.trim="username"
         name="username"
         placeholder="请输入账号"
-        :rules="[{ required: true, message: '用户名和密码不能为空' }]"
       />
       <van-field
-        v-model="password"
+        v-model.trim="password"
         type="password"
         name="password"
         placeholder="请输入密码"
-        :rules="[
-          { required: true, message: '用户名和密码不能为空' },
-          { pattern: /^\d{6}$/, message: '密码格式5-12位的字母和数字' },
-        ]"
       />
       <div style="margin: 16px">
         <van-button block native-type="submit">登 录</van-button>
@@ -31,23 +26,47 @@
 </template>
 
 <script>
+
+import { getLogin } from '@/api/user'
 export default {
   created () { },
   data () {
     return {
-      username: '',
-      password: '',
-      pattern: /\d{6}/
+      username: 'itheima',
+      password: '123456'
     }
   },
   methods: {
-    onClickLeft () { },
+    onClickLeft () {
+      this.$router.back()
+    },
     async onSubmit (values) {
-      console.log('submit', values)
-      await this.$refs.form.validate(['username', 'password'])
+      if (this.username && this.password) {
+        if (!this.username.match(/^[a-zA-Z0-9_-]{5,7}$/)) {
+          return this.$toast('用户名格式5-8位字母和数字')
+        }
+        if (!this.password.match(/^\d{5,12}$/)) {
+          return this.$toast('密码为5-12位字母和数字')
+        }
+        try {
+          const res = await getLogin(values)
+          this.$toast.success('账号登录成功')
+          this.$store.commit('setUser', res)
+          this.$router.push({
+            name: 'my'
+          })
+        } catch (err) {
+          console.log(err)
+          this.$toast.fail('登录失败，请稍后重试')
+        }
+      } else {
+        this.$toast('用户名和密码不能为空')
+      }
     }
   },
-  computed: {},
+  computed: {
+
+  },
   watch: {},
   filters: {},
   components: {}
@@ -68,6 +87,7 @@ export default {
   height: 100px;
   line-height: 100px;
   font-size: 36px;
+  background-color: #1cb676;
 }
 .registe {
   margin: 0 auto;
