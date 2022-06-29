@@ -1,11 +1,13 @@
 <template>
   <div>
-    <router-view />
+    <router-view class="main" />
 
     <van-tabbar route>
       <van-tabbar-item replace to="/home" icon="home-o">首页</van-tabbar-item>
       <van-tabbar-item replace to="/find" icon="search">找房</van-tabbar-item>
-      <van-tabbar-item replace to="/news" icon="newspaper-o">资讯</van-tabbar-item>
+      <van-tabbar-item replace to="/news" icon="newspaper-o"
+        >资讯</van-tabbar-item
+      >
       <van-tabbar-item replace to="/my" icon="contact">我的</van-tabbar-item>
     </van-tabbar>
   </div>
@@ -26,4 +28,7 @@ export default {
 </script>
 
 <style scoped lang='less'>
+.main {
+  padding-bottom: 100px;
+}
 </style>

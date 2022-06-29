@@ -1,12 +1,10 @@
 <template>
   <div>
     <!-- 搜索栏S -->
-    <van-search
-      v-model="value"
-      show-action
-      label="北京"
-      placeholder="请输入小区或地址"
-    >
+    <van-search v-model="value" show-action placeholder="请输入小区或地址">
+      <template #label
+        ><span @click="$router.push('/city')">北京</span>
+      </template>
       <template #action>
         <van-icon name="location-o" />
       </template>
@@ -14,14 +12,8 @@
     <!-- 搜索栏E -->
     <!-- 轮播图S -->
     <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
-      <van-swipe-item>
-        <img src="@/assets/1.png" alt="" />
-      </van-swipe-item>
-      <van-swipe-item>
-        <img src="@/assets/2.png" alt="" />
-      </van-swipe-item>
-      <van-swipe-item>
-        <img src="@/assets/3.png" alt="" />
+      <van-swipe-item v-for="item in swipes" :key="item.id">
+        <img :src="'http://liufusong.top:8080' + item.imgSrc" alt="" />
       </van-swipe-item>
     </van-swipe>
     <!-- 轮播图E -->
@@ -75,20 +67,49 @@
         租房小组
         <span>更多</span>
       </h3>
+      <van-row type="flex" justify="space-around" align="center">
+        <van-col span="12" v-for="item in groupList" :key="item.id">
+          <div>
+            <img :src="'http://liufusong.top:8080' + item.imgSrc" alt="" />
+            <div class="txt">
+              <p>{{ item.title }}</p>
+              <p>{{ item.desc }}</p>
+            </div>
+          </div>
+        </van-col>
+      </van-row>
     </div>
     <!-- 租房小组E -->
   </div>
 </template>
 
 <script>
+import { getSwipes, getGroups } from '@/api/home'
 export default {
-  created () { },
+  name: 'Home',
+  created () {
+    this.getSwipes()
+    this.getGroups()
+  },
   data () {
     return {
-      value: ''
+      value: '',
+      swipes: [],
+      groupList: []
     }
   },
-  methods: {},
+  methods: {
+    async getSwipes () {
+      const res = await getSwipes()
+      console.log(res)
+      this.swipes = res.data.body
+    },
+    async getGroups () {
+      const res = await getGroups()
+      console.log(res)
+      this.groupList = res.data.body
+    }
+  },
   computed: {},
   watch: {},
   filters: {},
@@ -135,7 +156,7 @@ export default {
 
   .group_title {
     position: relative;
-    margin: 30px 0 30px 20px;
+    margin: 30px 0 10px 20px;
     font-size: 30px;
     span {
       color: #787d82;
@@ -144,6 +165,32 @@ export default {
       font-size: 28px;
       font-weight: 400;
       padding-right: 20px;
+    }
+  }
+  .van-row {
+    padding: 10px;
+    .van-col {
+      div {
+        background-color: #fff;
+        margin: 10px;
+        border-radius: 10px;
+        display: flex;
+        justify-content: space-evenly;
+        padding: 5px;
+        img {
+          width: 100px;
+          height: 100px;
+        }
+        .txt {
+          font-size: 28px;
+          display: flex;
+          flex-direction: column;
+          p {
+            padding: 0;
+            margin: 0;
+          }
+        }
+      }
     }
   }
 }

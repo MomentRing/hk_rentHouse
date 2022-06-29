@@ -32,8 +32,8 @@ export default {
   created () { },
   data () {
     return {
-      username: 'itheima',
-      password: '123456'
+      username: 'zdy4210',
+      password: '741852963'
     }
   },
   methods: {
