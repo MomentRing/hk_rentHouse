@@ -8,7 +8,9 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    user: {}
+    user: {},
+    cityNameNow: '北京',
+    cityCode: 'AREA|88cff55c-aaa4-e2e0'
   },
   getters: {
   },
@@ -18,6 +20,12 @@ export default new Vuex.Store({
     },
     clearToken (state, payload) {
       state.user = {}
+    },
+    setCityName (state, payload) {
+      state.cityNameNow = payload
+    },
+    setCityCode (state, payload) {
+      state.cityCode = payload
     }
   },
   actions: {

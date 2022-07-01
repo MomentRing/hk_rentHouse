@@ -4,7 +4,13 @@
     <van-nav-bar left-arrow>
       <template #title>
         <!-- 搜索栏S -->
-        <van-search label="北京" placeholder="请输入小区或地址"> </van-search>
+        <van-search placeholder="请输入小区或地址">
+          <template #label>
+            <span @click="$router.push('/city')">
+              {{ $store.state.cityNameNow }}
+            </span>
+          </template>
+        </van-search>
         <!-- 搜索栏E -->
       </template>
       <template #right>
@@ -27,21 +33,44 @@
         />
       </van-dropdown-item>
       <van-dropdown-item title="租金">
-        <van-picker show-toolbar title="标题" :columns="columns" />
+        <!-- <van-picker show-toolbar title="标题" :columns="columns" /> -->
       </van-dropdown-item>
       <van-dropdown-item title="筛选">
-        <van-picker show-toolbar title="标题" :columns="columns" />
+        <!-- <van-picker show-toolbar title="标题" :columns="columns" /> -->
       </van-dropdown-item>
     </van-dropdown-menu>
   </div>
 </template>
 
 <script>
+import { getChildCity } from '@/api/find'
 export default {
-  created () { },
+  async created () {
+    try {
+      const res = await getChildCity(this.$store.state.cityCode)
+      console.log(res)
+      res.data.body.forEach(async (item) => {
+        this.columns_quyu[0].children.push({
+          text: item.label,
+          children: []
+        })
+        const res1 = await getChildCity(item.value)
+        console.log(res1.data.body)
+
+        /* res1.data.body.forEach(item1 => {
+          this.columns_quyu[0].children.forEach(item2 => {
+            item2.children.push({
+              text: item1.label
+            })
+          })
+        }) */
+      })
+    } catch (err) {
+      console.log(err)
+    }
+  },
   data () {
     return {
-      columns_ways: ['杭州', '宁波', '温州', '绍兴', '湖州', '嘉兴', '金华', '衢州'],
       columns_quyu: [
         {
           text: '区域',
@@ -69,7 +98,8 @@ export default {
             }
           ]
         }
-      ]
+      ],
+      columns_ways: ['不限', '整租', '合租']
 
     }
   },
@@ -83,6 +113,7 @@ export default {
     onCancel () {
       this.$toast('取消')
     }
+
   },
   computed: {},
   watch: {},

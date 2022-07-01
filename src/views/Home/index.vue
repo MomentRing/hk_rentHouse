@@ -3,7 +3,9 @@
     <!-- 搜索栏S -->
     <van-search v-model="value" show-action placeholder="请输入小区或地址">
       <template #label
-        ><span @click="$router.push('/city')">北京</span>
+        ><span @click="$router.push('/city')">
+          {{ $store.state.cityNameNow }}
+        </span>
       </template>
       <template #action>
         <van-icon name="location-o" />
@@ -85,6 +87,7 @@
 
 <script>
 import { getSwipes, getGroups } from '@/api/home'
+
 export default {
   name: 'Home',
   created () {
@@ -101,17 +104,19 @@ export default {
   methods: {
     async getSwipes () {
       const res = await getSwipes()
-      console.log(res)
+      // console.log(res)
       this.swipes = res.data.body
     },
     async getGroups () {
       const res = await getGroups()
-      console.log(res)
+      // console.log(res)
       this.groupList = res.data.body
     }
+
   },
   computed: {},
-  watch: {},
+  watch: {
+  },
   filters: {},
   components: {}
 }
