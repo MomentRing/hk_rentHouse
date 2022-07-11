@@ -10,7 +10,16 @@ export default new Vuex.Store({
   state: {
     user: {},
     cityNameNow: '北京',
-    cityCode: 'AREA|88cff55c-aaa4-e2e0'
+    cityCode: 'AREA|88cff55c-aaa4-e2e0',
+    area: '',
+    subway: '',
+    rentType: null,
+    price: null,
+    more: '',
+    roomType: '',
+    oriented: '',
+    characteristic: '',
+    floor: ''
   },
   getters: {
   },

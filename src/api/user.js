@@ -28,3 +28,26 @@ export const getUserMsg = (token) => {
     }
   })
 }
+/**
+ *添加收藏
+ * @param {房屋id} id
+ * @returns
+ */
+export const addCollet = (id) => {
+  return request({
+    method: 'post',
+    url: `/user/favorites/${id}`
+  })
+}
+
+/**
+ *删除收藏
+ * @param {房屋id} id
+ * @returns
+ */
+export const delCollet = (id) => {
+  return request({
+    method: 'delete',
+    url: `/user/favorites/${id}`
+  })
+}

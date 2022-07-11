@@ -5,7 +5,8 @@ import store from './store'
 import 'amfe-flexible'
 import Vant from 'vant'
 import 'vant/lib/index.less'
-
+import CollectArticle from '@/components/CollectArticle.vue'
+Vue.component('CollectArticle', CollectArticle)
 Vue.use(Vant)
 Vue.config.productionTip = false
 

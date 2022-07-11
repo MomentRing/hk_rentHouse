@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 export const getChildCity = (code) => {
   return request({
-    url: '/area',
+    url: '/houses/condition',
     params: {
       id: code
     }
